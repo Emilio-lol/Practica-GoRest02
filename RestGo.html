@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RestGo Client</title>
+
+    <link href="https://unpkg.com/primevue/resources/themes/saga-blue/theme.css " rel="stylesheet">
+    <link href="https://unpkg.com/primevue/resources/primevue.min.css " rel="stylesheet">
+    <link href="https://unpkg.com/primeicons/primeicons.css " rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    <script src="https://unpkg.com/primevue/components/inputtext/inputtext.umd.min.js"></script>
+    <script src="https://unpkg.com/primevue/components/dropdown/dropdown.umd.min.js"></script>
+    <script src="https://unpkg.com/primevue/components/button/button.umd.min.js"></script>
+    <script src="https://unpkg.com/primevue/components/datatable/datatable.umd.min.js"></script>
+    <script src="https://unpkg.com/primevue/components/column/column.umd.min.js"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>    
+</head>
+<body>
+    <div id="app">
+        <p>{{ nombre }}</p>
+    </div>
+<script>
+    const vtemplate = `
+    <form action="">
+        <p-inputtext type="text" v-model="names" placeholder="Nombre" /><br/><br/>
+        <p-inputtext type="text" v-model="email" placeholder="Email" /><br/><br/>
+        <p-inputtext type="text" v-model="phone" placeholder="Telefono" /><br/><br/>
+        <p-inputtext type="text" v-model="date" placeholder="Fecha" /><br/><br/>
+        <p-dropdown v-model="selectedThemes" :options="themes" optionLabel="name" placeholder="Select a Theme" /></br><br/>
+        <p-inputtext type="text" v-model="message" placeholder="Mensaje" /><br/><br/>
+        <p-dropdown v-model="selectedCity" :options="states" optionLabel="name" placeholder="Select a State" /><br/><br/>
+        <p-button label="Enviar" @click="NewContact($event)"/>
+    </form>
+    `
+    new Vue({
+    template: vtemplate,
+    components: {
+        'p-inputtext': inputtext,
+        'p-dropdown': dropdown,
+        'p-button': button,
+        'p-datatable': datatable,
+        'p-column': column
+    },
+    data: {
+        names: "",
+        email: "",
+        phone: "",
+        date: "",
+        selectedThemes: null,
+		themes: [
+			{name: 'Viajes'},
+			{name: 'Cursos'},
+			{name: 'Television'},
+			{name: 'Tecnologia'},
+			{name: 'Deportes'}
+        ],
+        message: "",
+        selectedCity: null,
+		states: [
+			{name: 'New York', code: 'NY'},
+			{name: 'Rome', code: 'RM'},
+			{name: 'London', code: 'LDN'},
+			{name: 'Istanbul', code: 'IST'},
+			{name: 'Paris', code: 'PRS'}
+        ]
+    },
+    methods: {
+        NewContact() {
+            axios.post('http://localhost:3030/contactos', {
+                id: 4,
+                name: this.names,
+                email: this.email,
+                phone: this.phone,
+                date: this.date,
+                theme: {
+                    id_theme: 4,
+                    name_theme: this.selectedThemes.name
+                },
+                message: this.message,
+                state: {
+                    id_state: 4,
+                    name_state: this.selectedCity.name
+                }
+            })
+            .then((response) => {
+                
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        }
+    }
+    }).$mount('#app');
+</script>
+</body>
+</html>
