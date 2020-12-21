@@ -45,6 +45,9 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/", LandingPage)
 	router.HandleFunc("/contactos", GetContactosEndPoint).Methods("GET")
+	router.HandleFunc("/nuevo/contacto", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./RestGo.html")
+	})
 	router.HandleFunc("/contacto/{id}", GetContactoEndPoint).Methods("GET")
 	router.HandleFunc("/contactos", PostCountContactos).Methods("POST")
 
