@@ -57,9 +57,10 @@ func main() {
 }
 
 func LandingPage(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Request!")
+	fmt.Println("Landing Page")
 	count = count + 1
-	fmt.Println(count)
+	visitsCount := strconv.Itoa(count)
+	fmt.Println("Visitas: " + visitsCount)
 }
 
 func GetContactosEndPoint(w http.ResponseWriter, r *http.Request) {
@@ -74,7 +75,7 @@ func GetContactoEndPoint(w http.ResponseWriter, r *http.Request) {
 }
 
 func PostCountContactos(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Welcome Contacts")
+	fmt.Println("Nuevo Contacto")
 	var newContact Contact
 	json.NewDecoder(r.Body).Decode(&newContact)
 	contacts = append(contacts, newContact)
